@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CyclicTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="190" Width="496">
+    <Grid Margin="0,0,0,0">
+        <TextBox x:Name="TaskTextBox" HorizontalAlignment="Left" Height="75" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="460"/>
+        <Button x:Name="NextTaskButton" Content="Новая задача" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="150
+                " Height="30" Click="NextTaskButton_Click"/>
+        <Button x:Name="ContinueButton" Content="Продолжаю задачу" HorizontalAlignment="Right" Margin="0,110,164,0" VerticalAlignment="Top" Width="150
+                
+                " Height="30" Click="ContinueButton_Click"/>
+        <Button x:Name="EndButton" Content="Закончить задачу" HorizontalAlignment="Right" Margin="320,110,10
+,0" VerticalAlignment="Top" Width="150
+                " Height="30" Click="EndButton_Click"/>
     </Grid>
 </Window>

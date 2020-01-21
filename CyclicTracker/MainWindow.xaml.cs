@@ -1,28 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CyclicTracker
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private Tasker currentTasker;
+        public static MainWindow main;
+
+
+        public void OnTop ()
+        {
+            this.Show();
+            this.Activate();
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            currentTasker = new Tasker();
+
+            main = this;
+
+            async Task RunPeriodicSave()
+            {
+                while (true)
+                {
+                    await Task.Delay(900000);
+                    OnTop();
+                }
+            }
+
+            RunPeriodicSave();
+        }
+
+        private static void Count(Object obj)
+        {
+            main.OnTop();
+        }
+
+
+        private void NextTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentTasker.CurrentTask != string.Empty)
+            {
+                currentTasker.Save();
+            }
+
+            string newTask = TaskTextBox.Text;
+            currentTasker = new Tasker(newTask);
+            this.Hide();
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void EndButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentTasker.CurrentTask != string.Empty)
+            {
+                currentTasker.Save();
+            }
         }
     }
 }
