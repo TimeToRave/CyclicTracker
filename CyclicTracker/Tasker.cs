@@ -26,7 +26,12 @@ namespace CyclicTracker
         {
             using (StreamWriter writetext = new StreamWriter(@"D:\tasks.txt", true, System.Text.Encoding.UTF8))
             {
-                writetext.WriteLine(string.Format("{0} : {1} - {2}", CurrentTaskStart, DateTime.Now, CurrentTask));
+                writetext.WriteLine(string.Format(
+                    "[{0} - {1}] {2}", 
+                    CurrentTaskStart.ToString("HH:mm"),
+                    DateTime.Now.ToString("HH:mm"),
+                    CurrentTask
+                ));
             }
         }
     }
