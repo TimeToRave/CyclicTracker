@@ -24,7 +24,7 @@ namespace CyclicTracker
 
         public void Save()
         {
-            using (StreamWriter writetext = new StreamWriter(@"D:\tasks.txt", true, System.Text.Encoding.Default))
+            using (StreamWriter writetext = new StreamWriter(@"D:\tasks.txt", true, System.Text.Encoding.UTF8))
             {
                 writetext.WriteLine(string.Format("{0} : {1} - {2}", CurrentTaskStart, DateTime.Now, CurrentTask));
             }
