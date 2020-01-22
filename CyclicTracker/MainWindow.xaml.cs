@@ -43,6 +43,11 @@ namespace CyclicTracker
 
         private void NextTaskButton_Click(object sender, RoutedEventArgs e)
         {
+            if(TaskTextBox.Text == currentTasker.CurrentTask)
+            {
+                return;
+            }
+
             if (currentTasker.CurrentTask != string.Empty)
             {
                 currentTasker.Save();
