@@ -17,16 +17,19 @@ namespace CyclicTracker
         {
             CurrentTask = task;
             CurrentTaskStart = DateTime.Now;
-            WriteToFile("[" + DateTime.Now.ToString("dd MMMM yyyy, dddd") + "]");
+            WriteToFile("\n[" + DateTime.Now.ToString("dd MMMM yyyy, dddd") + "]");
         }
 
         public void Save()
         {
+            string duration = string.Format("{0:hh\\:mm\\:ss}", GetDuration());
+
            WriteToFile(string.Format(
-                    "[{0} - {1}] {2}", 
+                    "[{0} - {1}] {2} - {3}", 
                     CurrentTaskStart.ToString("HH:mm"),
                     DateTime.Now.ToString("HH:mm"),
-                    CurrentTask)
+                    CurrentTask,
+                    duration)
             );
             
             Clear();
@@ -44,6 +47,13 @@ namespace CyclicTracker
             {
                 writetext.WriteLine(stringToWrite);
             }
+        }
+
+        private TimeSpan GetDuration()
+        {
+            DateTime endDate = DateTime.Now;
+            TimeSpan duration = endDate.Subtract(CurrentTaskStart);
+            return duration;
         }
     }
 }
