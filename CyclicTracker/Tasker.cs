@@ -33,6 +33,13 @@ namespace CyclicTracker
                     CurrentTask
                 ));
             }
+            Clear();
+        }
+
+        public void Clear()
+        {
+            CurrentTask = string.Empty;
+            CurrentTaskStart = DateTime.MinValue;
         }
     }
 }

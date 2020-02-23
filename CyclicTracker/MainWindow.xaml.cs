@@ -27,7 +27,8 @@ namespace CyclicTracker
             {
                 while (true)
                 {
-                    await Task.Delay(900000);
+                    int minutes = 1;
+                    await Task.Delay(minutes * 60 * 1000);
                     OnTop();
                 }
             }
@@ -60,7 +61,10 @@ namespace CyclicTracker
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            if (!currentTasker.CurrentTask.Equals(string.Empty))
+            {
+                this.Hide();
+            }
         }
 
         private void EndButton_Click(object sender, RoutedEventArgs e)
@@ -68,6 +72,7 @@ namespace CyclicTracker
             if (currentTasker.CurrentTask != string.Empty)
             {
                 currentTasker.Save();
+                TaskTextBox.Text = string.Empty;
             }
         }
     }
