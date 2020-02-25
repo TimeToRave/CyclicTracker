@@ -7,6 +7,8 @@ namespace CyclicTracker
     public partial class MainWindow : Window
     {
         private Tasker currentTasker;
+        private Configuration configuration;
+
         public static MainWindow main;
 
 
@@ -19,15 +21,20 @@ namespace CyclicTracker
         public MainWindow()
         {
             InitializeComponent();
-            currentTasker = new Tasker();
+            
 
+            configuration = new Configuration();
+
+            currentTasker = new Tasker(string.Empty, configuration.OutputFilePath);
+
+
+            int minutes = configuration.TimePeriod;
             main = this;
 
             async Task RunPeriodicSave()
             {
                 while (true)
                 {
-                    int minutes = 1;
                     await Task.Delay(minutes * 60 * 1000);
                     OnTop();
                 }
@@ -55,7 +62,7 @@ namespace CyclicTracker
             }
 
             string newTask = TaskTextBox.Text;
-            currentTasker = new Tasker(newTask);
+            currentTasker = new Tasker(newTask, configuration.OutputFilePath);
             this.Hide();
         }
 
