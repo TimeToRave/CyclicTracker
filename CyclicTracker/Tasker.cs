@@ -7,11 +7,11 @@ namespace CyclicTracker
     {
         private string currentTask;
         private DateTime currentTaskStart;
-        private string outputFilepath;
+        private string outputFilePath;
 
         public string CurrentTask { get => currentTask; set => currentTask = value; }
         public DateTime CurrentTaskStart { get => currentTaskStart; set => currentTaskStart = value; }
-        public string OutputFilepath { get => outputFilepath; set => outputFilepath = value; }
+        public string OutputFilePath { get => outputFilePath; set => outputFilePath = value; }
 
         public Tasker() : this(string.Empty, @"Tasks.txt") {}
 
@@ -19,6 +19,7 @@ namespace CyclicTracker
         {
             CurrentTask = task;
             CurrentTaskStart = DateTime.Now;
+            OutputFilePath = path;
             WriteToFile("\n[" + DateTime.Now.ToString("dd MMMM yyyy, dddd") + "]");
         }
 
@@ -45,7 +46,7 @@ namespace CyclicTracker
 
         private void WriteToFile(string stringToWrite)
         {
-            using (StreamWriter writetext = new StreamWriter(@"Tasks.txt", true, System.Text.Encoding.UTF8))
+            using (StreamWriter writetext = new StreamWriter(OutputFilePath, true, System.Text.Encoding.UTF8))
             {
                 writetext.WriteLine(stringToWrite);
             }

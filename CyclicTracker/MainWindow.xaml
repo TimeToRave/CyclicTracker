@@ -7,14 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="190" Width="496">
     <Grid Margin="0,0,0,0">
-        <TextBox x:Name="TaskTextBox" HorizontalAlignment="Left" Height="75" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="460"/>
-        <Button x:Name="NextTaskButton" Content="Новая задача" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="150
-                " Height="30" Click="NextTaskButton_Click"/>
-        <Button x:Name="ContinueButton" Content="Продолжаю задачу" HorizontalAlignment="Right" Margin="0,110,164,0" VerticalAlignment="Top" Width="150
-                
-                " Height="30" Click="ContinueButton_Click"/>
-        <Button x:Name="EndButton" Content="Закончить задачу" HorizontalAlignment="Right" Margin="320,110,10
-,0" VerticalAlignment="Top" Width="150
-                " Height="30" Click="EndButton_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" x:Name="TaskTextBox" Margin="0" TextWrapping="Wrap"/>
+        <Button Grid.Row="1" Grid.Column="0"  x:Name="NextTaskButton" Content="Новая задача" Click="NextTaskButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="ContinueButton" Content="Продолжаю задачу" Click="ContinueButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="2" x:Name="EndButton" Content="Закончить задачу" Click="EndButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="3" x:Name="OpenTasksFile" Content="Открыть задачи" Click="OpenTasksFile_Click"/>
     </Grid>
 </Window>

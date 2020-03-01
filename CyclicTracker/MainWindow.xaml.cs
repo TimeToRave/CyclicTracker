@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -81,6 +83,18 @@ namespace CyclicTracker
                 currentTasker.Save();
                 TaskTextBox.Text = string.Empty;
             }
+        }
+
+        private void OpenTasksFile_Click(object sender, RoutedEventArgs e)
+        {
+            string file = configuration.OutputFilePath;
+            ProcessStartInfo pi = new ProcessStartInfo(file);
+            pi.Arguments = Path.GetFileName(file);
+            pi.UseShellExecute = true;
+            pi.WorkingDirectory = Path.GetDirectoryName(file);
+            pi.FileName = file;
+            pi.Verb = "OPEN";
+            Process.Start(pi);
         }
     }
 }
