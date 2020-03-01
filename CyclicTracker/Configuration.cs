@@ -21,8 +21,10 @@ namespace CyclicTracker
         public Configuration(string configFilePath) {
 
             Dictionary<string, string> configurationFromFile = ReadFromFile(configFilePath);
+
             OutputFilePath = configurationFromFile["path"];
             TimePeriod = int.Parse(configurationFromFile["period"]);
+            
 
             var t = 0;
         }
@@ -30,6 +32,10 @@ namespace CyclicTracker
         private Dictionary<string, string> ReadFromFile(string fileName)
         {
             Dictionary<string, string> configurationFromFile = new Dictionary<string, string>();
+            if (!File.Exists(fileName))
+            {
+                CreateDefaultConfigurationFile(fileName);   
+            }
 
             using (StreamReader sr = new StreamReader(fileName))
             {
@@ -43,8 +49,22 @@ namespace CyclicTracker
                     }
                 }
             }
-
             return configurationFromFile;
         }
+
+        private void CreateDefaultConfigurationFile(string fileName)
+        {
+            Dictionary<string, string> defaultConfiguration = new Dictionary<string, string>();
+            defaultConfiguration.Add("path", @"Tasks.txt");
+            defaultConfiguration.Add("period", "15");
+
+            using (StreamWriter outputFile = new StreamWriter(fileName))
+            {
+                foreach (var parameter in defaultConfiguration)
+                    outputFile.WriteLine(string.Format("{0} = {1}", parameter.Key, parameter.Value));    
+            }
+        }
+
+
     }
 }
