@@ -6,15 +6,22 @@ using System.Text;
 
 namespace CyclicTracker
 {
-    class Configuration
+    public class Configuration
     {
         private string configFilePath;
         private string outputFilePath;
         private int timePeriod;
+        private string taskStringMask;
+        private string startDayStringMask;
+        private string durationStringMask;
 
         public string OutputFilePath { get => outputFilePath; set => outputFilePath = value; }
         public int TimePeriod { get => timePeriod; set => timePeriod = value; }
         public string ConfigFilePath { get => configFilePath; set => configFilePath = value; }
+        public string TaskStringMask { get => taskStringMask; set => taskStringMask = value; }
+        public string StartDayStringMask { get => startDayStringMask; set => startDayStringMask = value; }
+        public string DurationStringMask { get => durationStringMask; set => durationStringMask = value; }
+       
 
         public Configuration() : this(@"CyclicTracker.config") {}
 
@@ -24,9 +31,9 @@ namespace CyclicTracker
 
             OutputFilePath = configurationFromFile["path"];
             TimePeriod = int.Parse(configurationFromFile["period"]);
-            
-
-            var t = 0;
+            TaskStringMask = configurationFromFile["taskMask"];
+            StartDayStringMask = configurationFromFile["startDayMask"];
+            DurationStringMask = configurationFromFile["durationMask"];
         }
 
         private Dictionary<string, string> ReadFromFile(string fileName)
@@ -57,6 +64,9 @@ namespace CyclicTracker
             Dictionary<string, string> defaultConfiguration = new Dictionary<string, string>();
             defaultConfiguration.Add("path", @"Tasks.txt");
             defaultConfiguration.Add("period", "15");
+            defaultConfiguration.Add("taskMask", "[{0} - {1}] {2} - {3}");
+            defaultConfiguration.Add("startDayMask", "[{0}]");
+            defaultConfiguration.Add("durationMask", "{0:hh\\:mm\\:ss}");
 
             using (StreamWriter outputFile = new StreamWriter(fileName))
             {

@@ -27,8 +27,7 @@ namespace CyclicTracker
 
             configuration = new Configuration();
 
-            currentTasker = new Tasker(string.Empty, configuration.OutputFilePath);
-
+            currentTasker = new Tasker(string.Empty, configuration);
 
             int minutes = configuration.TimePeriod;
             main = this;
@@ -50,7 +49,6 @@ namespace CyclicTracker
             main.OnTop();
         }
 
-
         private void NextTaskButton_Click(object sender, RoutedEventArgs e)
         {
             if(TaskTextBox.Text == currentTasker.CurrentTask)
@@ -64,7 +62,7 @@ namespace CyclicTracker
             }
 
             string newTask = TaskTextBox.Text;
-            currentTasker = new Tasker(newTask, configuration.OutputFilePath);
+            currentTasker = new Tasker(newTask, configuration);
             this.Hide();
         }
 

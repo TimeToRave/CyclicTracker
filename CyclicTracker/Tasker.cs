@@ -7,28 +7,29 @@ namespace CyclicTracker
     {
         private string currentTask;
         private DateTime currentTaskStart;
-        private string outputFilePath;
+        private Configuration configuration;
 
         public string CurrentTask { get => currentTask; set => currentTask = value; }
         public DateTime CurrentTaskStart { get => currentTaskStart; set => currentTaskStart = value; }
-        public string OutputFilePath { get => outputFilePath; set => outputFilePath = value; }
+        private Configuration Configuration { get => configuration; set => configuration = value; }
 
-        public Tasker() : this(string.Empty, @"Tasks.txt") {}
+        public Tasker() : this(string.Empty, new Configuration()) {}
 
-        public Tasker(string task, string path)
+        public Tasker(string task, Configuration configuration)
         {
             CurrentTask = task;
             CurrentTaskStart = DateTime.Now;
-            OutputFilePath = path;
-            WriteToFile("\n[" + DateTime.Now.ToString("dd MMMM yyyy, dddd") + "]");
+            Configuration = configuration;
+
+            WriteToFile(string.Format(configuration.StartDayStringMask, DateTime.Now.ToString("dd MMMM yyyy, dddd")));
         }
 
         public void Save()
         {
-            string duration = string.Format("{0:hh\\:mm\\:ss}", GetDuration());
+            string duration = string.Format(configuration.DurationStringMask, GetDuration());
 
            WriteToFile(string.Format(
-                    "[{0} - {1}] {2} - {3}", 
+                    configuration.TaskStringMask,
                     CurrentTaskStart.ToString("HH:mm"),
                     DateTime.Now.ToString("HH:mm"),
                     CurrentTask,
@@ -46,7 +47,7 @@ namespace CyclicTracker
 
         private void WriteToFile(string stringToWrite)
         {
-            using (StreamWriter writetext = new StreamWriter(OutputFilePath, true, System.Text.Encoding.UTF8))
+            using (StreamWriter writetext = new StreamWriter(Configuration.OutputFilePath, true, System.Text.Encoding.UTF8))
             {
                 writetext.WriteLine(stringToWrite);
             }
