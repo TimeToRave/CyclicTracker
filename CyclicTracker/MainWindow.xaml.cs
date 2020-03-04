@@ -51,12 +51,12 @@ namespace CyclicTracker
 
         private void NextTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            if(TaskTextBox.Text == currentTasker.CurrentTask)
+            if(TaskTextBox.Text == currentTasker.Task)
             {
                 return;
             }
 
-            if (currentTasker.CurrentTask != string.Empty)
+            if (currentTasker.Task != string.Empty)
             {
                 currentTasker.Save();
             }
@@ -68,7 +68,7 @@ namespace CyclicTracker
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!currentTasker.CurrentTask.Equals(string.Empty))
+            if (!currentTasker.Task.Equals(string.Empty))
             {
                 this.Hide();
             }
@@ -76,7 +76,7 @@ namespace CyclicTracker
 
         private void EndButton_Click(object sender, RoutedEventArgs e)
         {
-            if (currentTasker.CurrentTask != string.Empty)
+            if (currentTasker.Task != string.Empty)
             {
                 currentTasker.Save();
                 TaskTextBox.Text = string.Empty;
@@ -93,6 +93,12 @@ namespace CyclicTracker
             pi.FileName = file;
             pi.Verb = "OPEN";
             Process.Start(pi);
+        }
+
+        private void ShowTasksPanelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataBaseConnector connector = new DataBaseConnector();
+            this.TasksDataGrid.ItemsSource = connector.GetTasks();
         }
     }
 }
