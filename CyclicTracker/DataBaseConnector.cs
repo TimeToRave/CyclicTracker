@@ -53,8 +53,8 @@ namespace CyclicTracker
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "INSERT INTO Task(Task, StartDate, EndDate) VALUES(@task, @start, @end)";
-                    command.Parameters.AddWithValue("@task", task.CurrentTask);
-                    command.Parameters.AddWithValue("@start", task.CurrentTaskStart);
+                    command.Parameters.AddWithValue("@task", task.Task);
+                    command.Parameters.AddWithValue("@start", task.Start);
                     command.Parameters.AddWithValue("@end", DateTime.Now);
                     command.Prepare();
 
@@ -62,6 +62,33 @@ namespace CyclicTracker
                 }
             }
             return 0;
+        }
+
+        public List<Tasker> GetTasks()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string commandText = "SELECT Task, StartDate, EndDate FROM Task ORDER BY StartDate DESC";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(commandText, connection))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        List<Tasker> tasks = new List<Tasker>();
+                        while (reader.Read())
+                        {
+                            tasks.Add(new Tasker(
+                                reader.GetString(0), 
+                                reader.GetString(1), 
+                                reader.GetString(2)
+                            ));
+                        }
+                        return tasks;
+                    }
+                }
+            }
         }
     }
 }
