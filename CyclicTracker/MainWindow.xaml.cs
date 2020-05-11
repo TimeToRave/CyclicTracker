@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CyclicTracker
 {
@@ -115,6 +116,7 @@ namespace CyclicTracker
         {
             this.WindowStyle = WindowStyle.None;
             this.WindowState = WindowState.Normal;
+            this.ResizeMode = ResizeMode.NoResize;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             foreach (var button in buttons)
@@ -127,7 +129,22 @@ namespace CyclicTracker
             this.MainGrid.RowDefinitions[1].MaxHeight = 5;
             this.MainGrid.RowDefinitions[2].MaxHeight = 0;
 
-            this.MaxHeight = 40;
+            this.MaxHeight = 25;
+            
+            this.MainGrid.Margin = new Thickness(5, 0, 0, 0);
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            Window window = (Window)sender;
+            window.Topmost = true;
+        }
+
     }
 }
