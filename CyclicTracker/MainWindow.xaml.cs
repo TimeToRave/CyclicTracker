@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace CyclicTracker
 {
@@ -19,8 +21,10 @@ namespace CyclicTracker
 
         public void OnTop ()
         {
-            this.Show();
+            Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            TaskTextBox.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
             this.Activate();
+            this.TaskTextBox.Focus();
         }
 
         public MainWindow()
@@ -28,7 +32,6 @@ namespace CyclicTracker
             InitializeComponent();
             buttons = new Button[] {
                 this.NextTaskButton,
-                this.ContinueButton,
                 this.EndButton,
                 this.ShowTasksPanelButton,
                 this.OpenTasksFileButton,
@@ -73,15 +76,6 @@ namespace CyclicTracker
 
             string newTask = TaskTextBox.Text;
             currentTasker = new Tasker(newTask, configuration);
-            this.Hide();
-        }
-
-        private void ContinueButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!currentTasker.Task.Equals(string.Empty))
-            {
-                this.Hide();
-            }
         }
 
         private void EndButton_Click(object sender, RoutedEventArgs e)
@@ -144,6 +138,14 @@ namespace CyclicTracker
         {
             Window window = (Window)sender;
             window.Topmost = true;
+
+            if (currentTasker.Task == string.Empty)
+            {
+                OnTop();
+            }
+
+            Background = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+            TaskTextBox.Background = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
         }
 
     }
