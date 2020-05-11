@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CyclicTracker
 {
@@ -10,6 +11,7 @@ namespace CyclicTracker
     {
         private Tasker currentTasker;
         private Configuration configuration;
+        private Button[] buttons;
 
         public static MainWindow main;
 
@@ -23,7 +25,14 @@ namespace CyclicTracker
         public MainWindow()
         {
             InitializeComponent();
-            
+            buttons = new Button[] {
+                this.NextTaskButton,
+                this.ContinueButton,
+                this.EndButton,
+                this.ShowTasksPanelButton,
+                this.OpenTasksFileButton,
+                this.CollapseButton
+            };
 
             configuration = new Configuration();
 
@@ -83,7 +92,7 @@ namespace CyclicTracker
             }
         }
 
-        private void OpenTasksFile_Click(object sender, RoutedEventArgs e)
+        private void OpenTasksFileButton_Click(object sender, RoutedEventArgs e)
         {
             string file = configuration.OutputFilePath;
             ProcessStartInfo pi = new ProcessStartInfo(file);
@@ -97,8 +106,28 @@ namespace CyclicTracker
 
         private void ShowTasksPanelButton_Click(object sender, RoutedEventArgs e)
         {
+            OutputRow.Height = new GridLength(0);
             DataBaseConnector connector = new DataBaseConnector();
             this.TasksDataGrid.ItemsSource = connector.GetTasks();
+        }
+
+        private void CollapseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowStyle = WindowStyle.None;
+            this.WindowState = WindowState.Normal;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            foreach (var button in buttons)
+            {
+                button.Height = 5;
+            }
+            TasksDataGrid.Visibility = Visibility.Collapsed;
+
+            this.MainGrid.RowDefinitions[0].MaxHeight = 20;
+            this.MainGrid.RowDefinitions[1].MaxHeight = 5;
+            this.MainGrid.RowDefinitions[2].MaxHeight = 0;
+
+            this.MaxHeight = 40;
         }
     }
 }

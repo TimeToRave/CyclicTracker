@@ -71,7 +71,9 @@ namespace CyclicTracker
             using (StreamWriter outputFile = new StreamWriter(fileName))
             {
                 foreach (var parameter in defaultConfiguration)
-                    outputFile.WriteLine(string.Format("{0} = {1}", parameter.Key, parameter.Value));    
+                {
+                    outputFile.WriteLine(string.Format("{0} = {1}", parameter.Key, parameter.Value));
+                }
             }
         }
 
