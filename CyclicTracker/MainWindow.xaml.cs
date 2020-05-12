@@ -90,5 +90,45 @@ namespace CyclicTracker
             TaskTextBox.Background = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
         }
 
+        private void NewTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TaskTextBox.Text == currentTasker.Task)
+            {
+                return;
+            }
+
+            if (currentTasker.Task != string.Empty)
+            {
+                currentTasker.Save();
+            }
+
+            string newTask = TaskTextBox.Text;
+
+            currentTasker = new Tasker(newTask, configuration);
+            CurrentTaskLabel.Content = string.Format("In progress: {0}", currentTasker.Task);
+            TaskTextBox.Text = string.Empty;
+        }
+
+        private void EndTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentTasker.Task == string.Empty)
+            {
+                return;
+            }
+
+            currentTasker.Save();
+            TaskTextBox.Text = string.Empty;
+            CurrentTaskLabel.Content = "Task completed";
+
+        }
+
+        private void AddTodoButton_Click(object sender, RoutedEventArgs e)
+        {
+            string stringToWrite = TaskTextBox.Text;
+            using (StreamWriter writetext = new StreamWriter(configuration.TodoFilePath, true, System.Text.Encoding.UTF8))
+            {
+                writetext.WriteLine(stringToWrite);
+            }
+        }
     }
 }

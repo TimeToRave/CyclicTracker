@@ -10,12 +10,14 @@ namespace CyclicTracker
     {
         private string configFilePath;
         private string outputFilePath;
+        private string todoFilePath;
         private int timePeriod;
         private string taskStringMask;
         private string startDayStringMask;
         private string durationStringMask;
 
         public string OutputFilePath { get => outputFilePath; set => outputFilePath = value; }
+        public string TodoFilePath { get => todoFilePath; set => todoFilePath = value; }
         public int TimePeriod { get => timePeriod; set => timePeriod = value; }
         public string ConfigFilePath { get => configFilePath; set => configFilePath = value; }
         public string TaskStringMask { get => taskStringMask; set => taskStringMask = value; }
@@ -30,6 +32,7 @@ namespace CyclicTracker
             Dictionary<string, string> configurationFromFile = ReadFromFile(configFilePath);
 
             OutputFilePath = configurationFromFile["path"];
+            TodoFilePath = configurationFromFile["todoPath"];
             TimePeriod = int.Parse(configurationFromFile["period"]);
             TaskStringMask = configurationFromFile["taskMask"];
             StartDayStringMask = configurationFromFile["startDayMask"];
@@ -63,6 +66,7 @@ namespace CyclicTracker
         {
             Dictionary<string, string> defaultConfiguration = new Dictionary<string, string>();
             defaultConfiguration.Add("path", @"Tasks.txt");
+            defaultConfiguration.Add("path", @"Todo.txt");
             defaultConfiguration.Add("period", "15");
             defaultConfiguration.Add("taskMask", "[{0} - {1}] {2} - {3}");
             defaultConfiguration.Add("startDayMask", "[{0}]");
