@@ -14,7 +14,6 @@ namespace CyclicTracker
     {
         private Tasker currentTasker;
         private Configuration configuration;
-        private Button[] buttons;
 
         public static MainWindow main;
 
@@ -30,14 +29,7 @@ namespace CyclicTracker
         public MainWindow()
         {
             InitializeComponent();
-            buttons = new Button[] {
-                this.NextTaskButton,
-                this.EndButton,
-                this.ShowTasksPanelButton,
-                this.OpenTasksFileButton,
-                this.CollapseButton
-            };
-
+           
             configuration = new Configuration();
 
             currentTasker = new Tasker(string.Empty, configuration);
@@ -62,62 +54,12 @@ namespace CyclicTracker
             main.OnTop();
         }
 
-        private void NextTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(TaskTextBox.Text == currentTasker.Task)
-            {
-                return;
-            }
-
-            if (currentTasker.Task != string.Empty)
-            {
-                currentTasker.Save();
-            }
-
-            string newTask = TaskTextBox.Text;
-            currentTasker = new Tasker(newTask, configuration);
-        }
-
-        private void EndButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentTasker.Task != string.Empty)
-            {
-                currentTasker.Save();
-                TaskTextBox.Text = string.Empty;
-            }
-        }
-
-        private void OpenTasksFileButton_Click(object sender, RoutedEventArgs e)
-        {
-            string file = configuration.OutputFilePath;
-            ProcessStartInfo pi = new ProcessStartInfo(file);
-            pi.Arguments = Path.GetFileName(file);
-            pi.UseShellExecute = true;
-            pi.WorkingDirectory = Path.GetDirectoryName(file);
-            pi.FileName = file;
-            pi.Verb = "OPEN";
-            Process.Start(pi);
-        }
-
-        private void ShowTasksPanelButton_Click(object sender, RoutedEventArgs e)
-        {
-            OutputRow.Height = new GridLength(0);
-            DataBaseConnector connector = new DataBaseConnector();
-            this.TasksDataGrid.ItemsSource = connector.GetTasks();
-        }
-
         private void CollapseButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowStyle = WindowStyle.None;
             this.WindowState = WindowState.Normal;
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            foreach (var button in buttons)
-            {
-                button.Height = 5;
-            }
-            TasksDataGrid.Visibility = Visibility.Collapsed;
 
             this.MainGrid.RowDefinitions[0].MaxHeight = 20;
             this.MainGrid.RowDefinitions[1].MaxHeight = 5;
